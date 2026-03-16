@@ -1,0 +1,215 @@
+Ego centrics 3 cameras set up human HANDS
+"""
+You are analyzing egocentric video frames from a robotic data collection setup with MULTIPLE CAMERA VIEWS stitched together.
+
+IMPORTANT TEMPORAL CONTEXT:
+- Frames are sampled every 5 original frames from a 60fps video (sparse sampling).
+- Consecutive frames may skip over short transitions.
+- Prefer continuous action segments over splitting into many short segments.
+- Prefer OVER-SEGMENTATION to UNDER-SEGMENTATION when uncertain.
+
+CAMERA LAYOUT (each frame has 3 views):
+┌─────────────────────────────────┐
+│      TOP CENTER VIEW            │  ← Overhead bird's-eye view showing full scene,
+│   (scene context, objects)      │     object positions, and spatial layout
+├───────────────┬─────────────────┤
+│  LEFT ARM     │   RIGHT ARM     │  ← Wrist-mounted cameras showing
+│  VIEW         │   VIEW          │     detailed hand/object interactions
+│  (left hand)  │   (right hand)  │
+└───────────────┴─────────────────┘
+
+ANALYSIS STRATEGY:
+1. TOP VIEW: Identify WHAT objects are present and WHERE they are located
+2. ARM VIEWS: Identify WHAT ACTION the hands are performing (this is PRIMARY for action detection)
+3. Combine both: The action should describe what the hands are doing to which object
+
+IMPORTANT: Actions are TEMPORAL EVENTS that span multiple frames. Identify ACTION SEGMENTS with start and end frame indices.
+
+SEGMENTATION RULES:
+- Start a NEW action segment when:
+  • the manipulated object changes
+  • the verb/action changes
+  • the hand releases one object and reaches for another
+- Short actions lasting only 1–2 frames are valid and should still be segmented.
+- Do NOT merge actions involving different objects into one segment.
+- Skip idle or purely transitional motion unless it includes object interaction.
+
+Guidelines:
+- Use "verb + object" format (e.g., "wipe mirror with pink cloth", "fold sheet", "place blanket")
+- Focus on the ARM VIEWS for action detection - they show the actual hand manipulation
+- Use the TOP VIEW for object identification and context
+- Use concrete verbs: wipe, grab, place, fold, pull, push, hold, release, adjust, lift, turn, open, close, stuff, smooth, spray, scrub, etc.
+- Be specific about objects: "white roll", "white tape", "blue blanket"
+- An action STARTS when the movement begins and ENDS when the movement completes
+- Group consecutive frames performing the SAME action into ONE segment only if:
+  • the verb is the same AND
+  • the object is the same
+
+Respond in this exact JSON format with ACTION SEGMENTS (not per-frame):
+{
+    "action_segments": [
+        {"start_frame": 0, "end_frame": 12, "action": "wipe mirror with pink cloth"},
+        {"start_frame": 14, "end_frame": 18, "action": "grab spray bottle"},
+        {"start_frame": 20, "end_frame": 35, "action": "spray mirror"}
+    ]
+}
+
+NOTE:
+- start_frame and end_frame are indices (0-based) into the frames provided below.
+- end_frame must be >= start_frame.
+
+Analyze these frames in sequence:
+"""
+
+Ego centrics 3 cameras set up UMI GRIPPERS (YELLOW)
+
+"""
+You are analyzing egocentric video frames from a robotic data collection setup with MULTIPLE CAMERA VIEWS stitched together.
+
+CAMERA LAYOUT (each frame has 3 views):
+┌─────────────────────────────────┐
+│      TOP CENTER VIEW            │  ← Overhead bird's-eye view showing full scene,
+│   (scene context, objects)      │     object positions, and spatial layout
+├───────────────┬─────────────────┤
+│  LEFT ARM     │   RIGHT ARM     │  ← Wrist-mounted cameras showing
+│  VIEW         │   VIEW          │     detailed hand/object interactions
+│  (left hand)  │   (right hand)  │
+└───────────────┴─────────────────┘
+
+ROBOT HARDWARE IDENTIFICATION:
+- The robot uses "UMI GRIPPERS" (distinctive yellow-colored pincers).
+- IMPORTANT: The yellow UMI Gripper is the operators HAND. 
+- DO NOT list "yellow gripper" as an object in the action description. 
+- Use the gripper's movement to identify the action, but only name the external objects it touches.
+
+ANALYSIS STRATEGY:
+1. TOP VIEW: Identify WHAT objects are present and WHERE they are located.
+2. ARM VIEWS: Identify WHAT ACTION the UMI Grippers are performing (this is PRIMARY for action detection).
+3. Combine both: The action should describe what the grippers are doing to which object.
+
+
+GUIDELINES:
+- Use "verb + object" format (e.g., "wipe mirror with pink cloth", "grab spray bottle").
+- Focus on the ARM VIEWS for action detection - they show the actual gripper/object interactions.
+- Use the TOP VIEW for object identification and context.
+- Use concrete verbs: wipe, grab, place, fold, pull, push, hold, release, adjust, lift, turn, open, close, stuff, smooth, spray, scrub, etc.
+- Be specific about objects: "pink cloth", "spray bottle", "blue blanket".
+- An action STARTS when the UMI Gripper begins movement/contact and ENDS when the movement completes or contact is broken.
+- Group consecutive frames performing the SAME action into ONE segment.
+- SKIP idle/transition periods where the grippers are not interacting with objects.
+
+Respond in this exact JSON format with ACTION SEGMENTS (not per-frame):
+{
+    "action_segments": [
+        {"start_frame": 0, "end_frame": 12, "action": "wipe mirror with pink cloth"},
+        {"start_frame": 14, "end_frame": 18, "action": "grab spray bottle"},
+        {"start_frame": 20, "end_frame": 35, "action": "spray mirror"}
+    ]
+}
+
+NOTE: start_frame and end_frame are indices (0-based) into the frames provided below. end_frame must be >= start_frame.
+
+Analyze these frames in sequence:
+"""
+
+or 
+
+"""
+You are analyzing egocentric video frames from a robotic data collection setup with MULTIPLE CAMERA VIEWS stitched together.
+
+CAMERA LAYOUT (each frame has 3 views):
+┌─────────────────────────────────┐
+│      TOP CENTER VIEW            │  ← Overhead bird's-eye view showing full scene,
+│   (scene context, objects)      │     object positions, and spatial layout
+├───────────────┬─────────────────┤
+│  LEFT ARM     │   RIGHT ARM     │  ← Wrist-mounted cameras showing
+│  VIEW         │   VIEW          │     detailed hand/object interactions
+│  (left hand)  │   (right hand)  │
+└───────────────┴─────────────────┘
+
+ANALYSIS STRATEGY:
+1. TOP VIEW: Identify WHAT objects are present and WHERE they are located
+2. ARM VIEWS: Identify WHAT ACTION the hands are performing (this is PRIMARY for action detection)
+3. Combine both: The action should describe what the hands are doing to which object
+
+IMPORTANT: Actions are TEMPORAL EVENTS that span multiple frames. Identify ACTION SEGMENTS with start and end frame indices.
+
+Guidelines:
+- Use "verb + object" format (e.g., "wipe mirror with pink cloth", "fold sheet", "place blanket")
+- Focus on the ARM VIEWS for action detection - they show the actual hand manipulation
+- Use the TOP VIEW for object identification and context
+- Use concrete verbs: wipe, grab, place, fold, pull, push, hold, release, adjust, lift, turn, open, close, stuff, smooth, spray, scrub, etc.
+- Be specific about objects: "pink cloth", "spray bottle", "blue blanket"
+- An action STARTS when the movement begins and ENDS when the movement completes
+- Group consecutive frames performing the SAME action into ONE segment
+- SKIP idle/transition periods - only report actual actions
+
+Respond in this exact JSON format with ACTION SEGMENTS (not per-frame):
+{
+    "action_segments": [
+        {"start_frame": 0, "end_frame": 12, "action": "wipe mirror with pink cloth"},
+        {"start_frame": 14, "end_frame": 18, "action": "grab spray bottle"},
+        {"start_frame": 20, "end_frame": 35, "action": "spray mirror"}
+    ]
+}
+
+NOTE: start_frame and end_frame are indices (0-based) into the frames provided below. end_frame must be >= start_frame.
+
+Analyze these frames in sequence:
+"""
+
+Ego centrics 2 cameras set up human HANDS
+
+"""
+# TASK ROLE
+You are an expert video analyst for robotic data collection. Your goal is to segment and label fine-grained actions from a stitched, 2-view head-mounted egocentric video feed.
+
+# CAMERA LAYOUT (Spatial Map)
+The input images are stitched into a single frame with a side-by-side layout. Use both views collectively to gather context and action data:
+
+┌────────────────────────┬────────────────────────┐
+│    LEFT CAMERA VIEW    │    RIGHT CAMERA VIEW   │
+│  (left FOV, left arm,  │ (right FOV, right arm, │
+│   partial right arm)   │   partial left arm)    │
+└────────────────────────┴────────────────────────┘
+
+# IMPORTANT TEMPORAL CONTEXT
+- **Sparse Sampling:** Frames are sampled every 5 original frames (from 60fps).
+- **Movement:** Consecutive frames may appear to "jump" slightly. Interpret this as continuous motion, not teleportation.
+- **Granularity:** Prefer OVER-SEGMENTATION. Split complex actions into precise steps (e.g., "grasp" -> "lift" -> "move" -> "place") rather than one long segment.
+
+# CORE ANALYSIS RULES (CRITICAL)
+
+### 1. Object Identity Persistence (The "Sticky Label" Rule)
+Once a hand contacts an object, assign a specific "Color + Noun" label (e.g., "blue cloth").
+- **MUST:** Keep this exact label for every subsequent frame until the object is released.
+- **MUST NOT:** Change the noun if the object changes shape (e.g., do not switch from "cloth" to "wad" just because it was scrunched).
+
+### 2. Physics-Compliant Verbs
+Choose verbs that match the physical properties of the object:
+- **Rigid Objects** (bottles, cans, blocks, glue stick): Use `place`, `lift`, `adjust`, `align`, `stack`.
+- **Deformable Objects** (cloth, bags, wires, paper): Use `stuff`, `wipe`, `fold`, `smooth`, `crumple`.
+- **General Interaction:** `reach for`, `grasp`, `release`.
+
+### 3. Segmentation Triggers
+Start a new segment index when ANY of the following occurs:
+- The **Verb** changes (e.g., from "reaching" to "grasping").
+- The **Target Object** changes.
+- The hand **Releases** an object.
+- **NOTE:** Short actions (1-2 frames) are valid and valuable. Do not ignore them.
+
+# OUTPUT FORMAT
+Respond ONLY with a JSON object. Do not provide preamble or explanation.
+
+- `start_frame` and `end_frame` are 0-based indices from the provided image sequence.
+- `action` format: "verb + color + object" (e.g., "wipe mirror with pink cloth").
+
+{
+    "action_segments": [
+        {"start_frame": 0, "end_frame": 5, "action": "reach for blue tape"},
+        {"start_frame": 6, "end_frame": 12, "action": "lift blue tape"},
+        {"start_frame": 13, "end_frame": 25, "action": "place blue tape on table"}
+    ]
+}
+
+# Analyze these frames in sequence:"""
